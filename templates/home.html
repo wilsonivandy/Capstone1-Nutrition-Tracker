@@ -1,0 +1,261 @@
+{% extends 'base.html' %} {% block title %} Test Home {% endblock %} {% block
+body %}
+<nav class="navbar navbar-expand-lg bg-dark navbar-dark py-3">
+  <div class="container-fluid">
+    <a href="#" class="navbar-brand px-5">Nutrition Planner</a>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navmenu"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse px-5" id="navmenu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a href="{{ url_for('home', user_id=user.id)}}" class="nav-link"
+            >Home</a
+          >
+        </li>
+        <li class="nav-item">
+          <a href="{{ url_for('logout')}}" class="nav-link">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Banner & Information -->
+<section class="bg-dark text-light p-5 text-center text-sm-start">
+  <div class="container">
+    <div class="d-sm-flex">
+      <div class="px-2 p-2">
+        <h1>
+          Welcome,
+          <span class="text-warning"
+            >{{user.first_name}} {{user.last_name}}</span
+          >!
+        </h1>
+        <div class="d-flex justify-content-center">
+          <p class="lead">
+            Counting calories doesn't have to be so hard. Search your favorite
+            recipes and plan your next meals!
+          </p>
+        </div>
+        <div>
+          <form
+            action="{{ url_for('autopopulate', user_id = user.id)}}"
+            method="POST"
+          >
+            <button class="btn btn-secondary" type="submit" id="generateButton">
+              Auto-Generate Meals!
+            </button>
+          </form>
+        </div>
+      </div>
+      <div class="d-flex p-4 justify-content-center">
+        <table class="table table-dark text-center">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">Calories</th>
+              <th scope="col">Carbs</th>
+              <th scope="col">Proteins</th>
+              <th scope="col">Fats</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Target</th>
+              <td>{{user.totalcalories}}</td>
+              <td>{{user.totalcarbs}}</td>
+              <td>{{user.totalproteins}}</td>
+              <td>{{user.totalfats}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Cumulative</th>
+              <td>{{runningCalories}}</td>
+              <td>{{runningCarbs}}</td>
+              <td>{{runningProteins}}</td>
+              <td>{{runningFats}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Meals -->
+<section class="p-5">
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-md d-flex justify-content-center align-items-start mb-5">
+        <div class="card" style="width: 18rem">
+          <img
+            src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/baked-eggs-and-zoodles-bundles1-1661458891.jpeg"
+            class="card-img-top img-fluid"
+            style="object-fit: cover"
+            alt="..."
+          />
+          <div class="card-body">
+            <h5 class="card-title">Breakfast</h5>
+            <p class="card-text">
+              Some quick example text to build on the card title and make up the
+              bulk of the card's content.
+            </p>
+          </div>
+          <ul class="list-group list-group-flush">
+            {% for m in meals %} {% if m.meal == 'breakfast' %} {% for f in
+            m.foods %}
+            <li class="list-group-item">
+              <div class="row d-flex justify-content-center">
+                <div class="w-75">{{f.name}}</div>
+                <a
+                  href="{{ url_for('view_Recipe', user_id = user.id, food_id=f.food_id , type = 'breakfast') }}"
+                  >View Recipe</a
+                >
+                <form
+                  action="{{ url_for('remove_Food', user_id = user.id, food_id=f.food_id , type = 'breakfast') }}"
+                  method="post"
+                  class="d-flex align-items-center justify-content-center"
+                  style="margin: 0px"
+                >
+                  <div
+                    class="position-absolute top-50 end-0 translate-middle-y"
+                  >
+                    <button class="btn end-0" type="submit">
+                      <i class="bi bi-x-square"></i>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </li>
+            {% endfor %} {% endif %} {% endfor %}
+          </ul>
+          <div class="card-body">
+            <a
+              href="{{ url_for('add_Meal', user_id = user.id, type='breakfast') }}"
+              method="POST"
+              class="btn btn-dark card-link"
+              >Add Food</a
+            >
+          </div>
+        </div>
+      </div>
+      <div class="col-md d-flex justify-content-center align-items-start mb-5">
+        <div class="card" style="width: 18rem">
+          <img
+            src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/190319-egg-roll-bowls-261-1654871843.jpg?crop=0.668xw:1.00xh;0.178xw,0&resize=640:*"
+            class="card-img-top img-fluid"
+            style="object-fit: cover"
+            alt="..."
+          />
+          <div class="card-body">
+            <h5 class="card-title">Lunch</h5>
+            <p class="card-text">
+              Some quick example text to build on the card title and make up the
+              bulk of the card's content.
+            </p>
+          </div>
+          <ul class="list-group list-group-flush">
+            {% for m in meals %} {% if m.meal == 'lunch' %} {% for f in m.foods
+            %}
+            <li class="list-group-item align-items-center">
+              <div class="row d-flex justify-content-center align-items-center">
+                <div class="w-75">{{f.name}}</div>
+                <a
+                  href="{{ url_for('view_Recipe', user_id = user.id, food_id=f.food_id , type = 'lunch') }}"
+                  >View Recipe</a
+                >
+                <form
+                  action="{{ url_for('remove_Food', user_id = user.id, food_id=f.food_id , type = 'lunch') }}"
+                  method="post"
+                  class="d-flex align-items-center justify-content-center"
+                  style="margin: 0px"
+                >
+                  <div
+                    class="position-absolute top-50 end-0 translate-middle-y"
+                  >
+                    <button class="btn" type="submit">
+                      <i class="bi bi-x-square"></i>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </li>
+            {% endfor %} {% endif %} {% endfor %}
+          </ul>
+          <div class="card-body">
+            <a
+              href="{{ url_for('add_Meal', user_id = user.id, type='lunch') }}"
+              method="POST"
+              class="btn btn-dark card-link"
+              >Add Food</a
+            >
+          </div>
+        </div>
+      </div>
+      <div class="col-md d-flex justify-content-center align-items-start mb-5">
+        <div class="card mx-auto" style="width: 18rem">
+          <img
+            src="https://www.readyseteat.com/sites/g/files/qyyrlu501/files/images/background/2022-03/GREY-017-RSE-Dinner-Ideas-Directory-Page-Update-MO-V1.jpg"
+            class="card-img-top img-fluid"
+            style="object-fit: cover"
+            alt="..."
+          />
+          <div class="card-body">
+            <h5 class="card-title">Dinner</h5>
+            <p class="card-text">
+              Some quick example text to build on the card title and make up the
+              bulk of the card's content.
+            </p>
+          </div>
+          <ul class="list-group list-group-flush">
+            {% for m in meals %} {% if m.meal == 'dinner' %} {% for f in m.foods
+            %}
+            <li class="list-group-item">
+              <div class="row d-flex justify-content-center">
+                <div class="w-75">{{f.name}}</div>
+                <a
+                  href="{{ url_for('view_Recipe', user_id = user.id, food_id=f.food_id , type = 'dinner') }}"
+                  >View Recipe</a
+                >
+                <form
+                  action="{{ url_for('remove_Food', user_id = user.id, food_id=f.food_id , type = 'dinner') }}"
+                  method="post"
+                  class="d-flex align-items-center justify-content-center"
+                  style="margin: 0px"
+                >
+                  <div
+                    class="position-absolute top-50 end-0 translate-middle-y"
+                  >
+                    <button class="btn" type="submit">
+                      <i class="bi bi-x-square"></i>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </li>
+            {% endfor %} {% endif %} {% endfor %}
+          </ul>
+          <div class="card-body">
+            <a
+              href="{{ url_for('add_Meal', user_id = user.id, type='dinner') }}"
+              method="POST"
+              class="btn btn-dark card-link"
+              >Add Food</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
