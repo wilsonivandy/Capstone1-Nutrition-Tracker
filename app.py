@@ -25,7 +25,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
     'DATABASE_URL', 'postgresql:///nutrition')
 INTOLERANCES = ['Dairy', 'Egg', 'Gluten', 'Grain', 'Peanut', 'Seafood', 'Sesame', 'Shellfish', 'Soy', 'Sulfite', 'Tree nut', 'Wheat']
 PREFERENCES = ['Beef', 'Pork']
-API_SECRET_KEY = app.config['API_SECRET_KEY']
+API_SECRET_KEY = os.environ.get('API_SECRET_KEY')
 
 
 connect_db(app)
