@@ -99,14 +99,6 @@ class Preference(db.Model):
                       unique=False)
     foods = db.relationship('Food', secondary='preferencefood', backref='preferences')
 
-class Meal_Food(db.Model):
-    __tablename__ = 'mealfood'
-    id = db.Column(db.Integer,
-        primary_key=True,
-        autoincrement=True)
-    meal_id = db.Column(db.Integer, db.ForeignKey('meal.id', ondelete="CASCADE"))
-    food_id = db.Column(db.Integer, db.ForeignKey('food.id', ondelete="CASCADE"))
-
 class User_Preference(db.Model):
     __tablename__ = 'userpreference'
     id = db.Column(db.Integer,

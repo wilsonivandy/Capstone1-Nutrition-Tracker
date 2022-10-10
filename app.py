@@ -13,7 +13,7 @@ from forms import signUpForm, logInForm
 import multidict
 import os
 
-from models import db, connect_db, User, Meal, Food, Preference, User_Preference, Meal_Food
+from models import db, connect_db, User, Meal, Food, Preference, User_Preference
 
 app = Flask(__name__)
 Bootstrap(app)
