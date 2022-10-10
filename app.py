@@ -7,7 +7,6 @@ from unittest.loader import VALID_MODULE_NAME
 from flask import Flask, redirect, render_template, jsonify, session, flash, request
 from importlib_metadata import method_cache
 from sqlalchemy import desc
-from secret import API_SECRET_KEY, APP_SECRET_KEY
 from decimal import Decimal
 from flask_bootstrap import Bootstrap
 from forms import signUpForm, logInForm
@@ -21,13 +20,12 @@ Bootstrap(app)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', APP_SECRET_KEY)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
-    'DATABASE_URL', 'postgresql:///nutrition')
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'coffeebean123')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
     'DATABASE_URL', 'postgresql:///nutrition')
 INTOLERANCES = ['Dairy', 'Egg', 'Gluten', 'Grain', 'Peanut', 'Seafood', 'Sesame', 'Shellfish', 'Soy', 'Sulfite', 'Tree nut', 'Wheat']
 PREFERENCES = ['Beef', 'Pork']
+API_SECRET_KEY = app.config['API_SECRET_KEY']
 
 
 connect_db(app)
