@@ -24,8 +24,7 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'coffeebean123')
 uri = os.getenv("DATABASE_URL")
 if uri.startswith("postgres://"):
     uri = uri.replace("postgres://", "postgresql://", 1)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
-    'DATABASE_URL', 'postgresql:///nutrition')
+app.config['SQLALCHEMY_DATABASE_URI'] = uri
 INTOLERANCES = ['Dairy', 'Egg', 'Gluten', 'Grain', 'Peanut', 'Seafood', 'Sesame', 'Shellfish', 'Soy', 'Sulfite', 'Tree nut', 'Wheat']
 PREFERENCES = ['Beef', 'Pork']
 API_SECRET_KEY = os.environ.get('API_SECRET_KEY')
