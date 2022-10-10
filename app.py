@@ -18,11 +18,12 @@ from models import db, connect_db, User, Meal, Food, Preference, User_Preference
 
 app = Flask(__name__)
 Bootstrap(app)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///nutrition'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', APP_SECRET_KEY)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
+    'DATABASE_URL', 'postgresql:///nutrition')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
     'DATABASE_URL', 'postgresql:///nutrition')
 INTOLERANCES = ['Dairy', 'Egg', 'Gluten', 'Grain', 'Peanut', 'Seafood', 'Sesame', 'Shellfish', 'Soy', 'Sulfite', 'Tree nut', 'Wheat']
