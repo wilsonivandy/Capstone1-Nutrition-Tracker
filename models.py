@@ -61,7 +61,7 @@ class Meal(db.Model):
     id = db.Column(db.Integer,
             primary_key=True,
             autoincrement=True)
-    meal = db.Column(db.String(200),
+    meal = db.Column(db.String(100),
                       nullable=False,
                       unique=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"))
@@ -77,7 +77,7 @@ class Food(db.Model):
     name = db.Column(db.String(200),
                       nullable=False,
                       unique=False)
-    image_url = db.Column(db.String(200),
+    image_url = db.Column(db.String(100),
                       nullable=False,
                       unique=False)
     calories = db.Column(db.Integer,
@@ -98,6 +98,14 @@ class Preference(db.Model):
                       nullable=False,
                       unique=False)
     foods = db.relationship('Food', secondary='preferencefood', backref='preferences')
+
+class Meal_Food(db.Model):
+    __tablename__ = 'mealfood'
+    id = db.Column(db.Integer,
+        primary_key=True,
+        autoincrement=True)
+    meal_id = db.Column(db.Integer, db.ForeignKey('meal.id', ondelete="CASCADE"))
+    food_id = db.Column(db.Integer, db.ForeignKey('food.id', ondelete="CASCADE"))
 
 class User_Preference(db.Model):
     __tablename__ = 'userpreference'
