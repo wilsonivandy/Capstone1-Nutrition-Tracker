@@ -35,7 +35,7 @@ API_SECRET_KEY = os.environ.get('API_SECRET_KEY')
 
 
 connect_db(app)
-db.drop_all()
+# db.drop_all()
 db.create_all()
 
 @app.route("/")
