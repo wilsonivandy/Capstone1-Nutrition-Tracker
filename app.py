@@ -1,18 +1,10 @@
-from cmath import log
-from crypt import methods
-from xxlimited import foo
 import requests
-from unicodedata import decimal
 from unittest.loader import VALID_MODULE_NAME
-from flask import Flask, redirect, render_template, jsonify, session, flash, request
-from importlib_metadata import method_cache
-from sqlalchemy import desc
-from decimal import Decimal
+from flask import Flask, redirect, render_template, session, flash, request
 from flask_bootstrap import Bootstrap
 from forms import signUpForm, logInForm
-import multidict
 import os
-
+# from secret import API_SECRET_KEY, APP_SECRET_KEY
 from models import db, connect_db, User, Meal, Food, Preference, User_Preference, Meal_Food
 
 app = Flask(__name__)
@@ -20,22 +12,16 @@ Bootstrap(app)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'coffeebean123')
-# uri = os.getenv("DATABASE_URL")
-# if uri.startswith("postgres://"):
-#     uri = uri.replace("postgres://", "postgresql://", 1)
-# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
-#     'DATABASE_URL', 'postgresql:///nutrition')
-# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
-#     'DATABASE_URL').replace("postgres://", "postgresql://", 1)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://ltjgbhovpjoluj:7aa680dea22b6eabc2b5bfbc8940c93503c5293b1031364f308a6df64f0c00d1@ec2-54-85-56-210.compute-1.amazonaws.com:5432/d5oonq49hffn2d'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
+    'DATABASE_URL').replace("postgres://", "postgresql://", 1)
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://ltjgbhovpjoluj:7aa680dea22b6eabc2b5bfbc8940c93503c5293b1031364f308a6df64f0c00d1@ec2-54-85-56-210.compute-1.amazonaws.com:5432/d5oonq49hffn2d'
 INTOLERANCES = ['Dairy', 'Egg', 'Gluten', 'Grain', 'Peanut', 'Seafood', 'Sesame', 'Shellfish', 'Soy', 'Sulfite', 'Tree nut', 'Wheat']
-PREFERENCES = ['Beef', 'Pork']
+PREFERENCES = ['Beef', 'Pork', 'Meat', 'Olive', 'Blue Cheese', 'Achovies', 'Liver', 'Oyster']
 API_SECRET_KEY = os.environ.get('API_SECRET_KEY')
 
-
 connect_db(app)
-# db.drop_all()
+db.drop_all()
 db.create_all()
 
 @app.route("/")
@@ -75,14 +61,21 @@ def login():
     if form.validate():
         user = User.authenticate(form.username.data, form.password.data)
         if user:
-            session["username"] = user.username
-            return redirect(f'/users/{user.id}')
+            if session["setPreference"] == False:
+                return redirect(f'/users/{user.id}/preference')
+            else:
+                session["username"] = user.username
+                return redirect(f'/users/{user.id}')
         else:
             message = 'Invalid username / password'
     return render_template('login.html', message = message)
 
 @app.route("/users/<int:user_id>/preference", methods=['GET', 'POST'])
 def preference(user_id):
+    """
+    Preference: If user is logged in user is a newly created account, display form to set total calories, carbs,
+    proteins, fats, along with all intolerances and preferences. Then redirect to home page.     
+    """
     if "username" not in session:
         flash("You must be logged in!")
         return redirect('/login')
@@ -109,13 +102,9 @@ def preference(user_id):
             user.totalproteins = int(float(request.form['totalproteins']))
             user.totalfats = int(float(request.form['totalfats']))
             db.session.commit()
+            session["setPreference"] = True
             return redirect(f'/users/{user.id}')
         return render_template('preference.html', user = user, preferences = PREFERENCES, intolerances = INTOLERANCES)
-
-@app.route("/logout")
-def logout():
-    session.pop("username")
-    return redirect("/")
 
 @app.route("/users/<int:user_id>")
 def home(user_id):
@@ -178,10 +167,6 @@ def add_Meal(user_id, type):
         db.session.commit()
     
     if request.method == 'POST':
-
-        print("***********")
-        print(intolerances)
-        print(preferences)
         name = request.form.get('query')
         params = {
         'query': name,
@@ -343,6 +328,11 @@ def add_Foods(user_id):
     db.session.commit()
     return redirect(f'/users/{user.id}')
 
+@app.route("/logout")
+def logout():
+    session.pop("username")
+    return redirect("/")
+
 def get_Cumulative(user_id):
     meals = Meal.query.filter_by(user_id = user_id)
     runningCalories = 0
@@ -356,3 +346,4 @@ def get_Cumulative(user_id):
             runningProteins += food.proteins
             runningFats += food.fats
     return [runningCalories, runningCarbs, runningProteins, runningFats]
+
