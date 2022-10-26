@@ -1,5 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
+INTOLERANCES = ['Dairy', 'Egg', 'Gluten', 'Grain', 'Peanut', 'Seafood', 'Sesame', 'Shellfish', 'Soy', 'Sulfite', 'Tree nut', 'Wheat']
+PREFERENCES = ['Beef', 'Pork', 'Meat', 'Olive', 'Blue Cheese', 'Achovies', 'Liver', 'Oyster']
 
 
 bcrypt = Bcrypt()
