@@ -24,7 +24,7 @@ The ability to search for recipes, view them and their nutrition facts, is very 
 The user starts on the homepage and logs in or signs up with their specific dietary requirements. From the home page (dashboard) the user is able to choose to add foods to any of three: Breakfast, Lunch, or Dinner. Then, they are redirected to the food page and can search query for recipes that suits their dietary needs. After searching, the User can add a recipe which will redirect back to the main page. Alternatively, they can view the recipe to see all the necessary steps. 
 From the home page the user can also autopopulate their meal plans according to their specified customizations. The user is also able to see the total running calories and macronutrients for the day in the dashboard.
 
-<!-- ![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true) -->
+![alt text](https://github.com/wilsonivandy/Capstone1-Nutrition-Tracker/blob/main/User%20Flow.png?raw=true)
 
 ## API
 
