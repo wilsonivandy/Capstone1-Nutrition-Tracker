@@ -20,9 +20,9 @@ app.config['SQLALCHEMY_ECHO'] = True
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 #app.config['SECRET_KEY'] = 'coffeebean123'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://vxorpvrvzfrtkp:ec24e992d57bdb0b29e3487352c5a66e2dc48dc973f4e921e153550f30ace99b@ec2-3-225-213-67.compute-1.amazonaws.com:5432/d2mlr2020j24kr'
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
    'DATABASE_URL').replace("postgres://", "postgresql://", 1)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://vxorpvrvzfrtkp:ec24e992d57bdb0b29e3487352c5a66e2dc48dc973f4e921e153550f30ace99b@ec2-3-225-213-67.compute-1.amazonaws.com:5432/d2mlr2020j24kr'
 API_SECRET_KEY = os.environ.get('API_SECRET_KEY')
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///nutrition'
 
