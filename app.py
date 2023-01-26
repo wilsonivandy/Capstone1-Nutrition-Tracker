@@ -5,7 +5,7 @@ from flask_bootstrap import Bootstrap
 from food import getFoodInfo
 from forms import signUpForm, logInForm
 import os
-from secret import API_SECRET_KEY, APP_SECRET_KEY
+#from secret import API_SECRET_KEY, APP_SECRET_KEY
 from models import db, connect_db, User, Meal, Food, Preference, User_Preference, Meal_Food, PREFERENCES, INTOLERANCES
 from user import validateSignUp, validateLogIn, validatePreferences, getCumulative
 from meal import getSuggestions, getPreferences, getQueryResults, resetQueries, createMeal
