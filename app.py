@@ -27,7 +27,7 @@ APP_SECRET_KEY = os.environ.get('SECRET_KEY')
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///nutrition_planner_test'
 
 connect_db(app)
-# db.drop_all()
+db.drop_all()
 db.create_all()
 
 @app.route("/")
