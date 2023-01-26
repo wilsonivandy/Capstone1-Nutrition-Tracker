@@ -18,13 +18,12 @@ Bootstrap(app)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
-# app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-app.config['SECRET_KEY'] = 'coffeebean123'
-# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
-#     'DATABASE_URL').replace("postgres://", "postgresql://", 1)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://ltjgbhovpjoluj:7aa680dea22b6eabc2b5bfbc8940c93503c5293b1031364f308a6df64f0c00d1@ec2-54-85-56-210.compute-1.amazonaws.com:5432/d5oonq49hffn2d'
-# API_SECRET_KEY = os.environ.get('API_SECRET_KEY')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///nutrition_planner_test'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
+    'DATABASE_URL').replace("postgres://", "postgresql://", 1)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://ltjgbhovpjoluj:7aa680dea22b6eabc2b5bfbc8940c93503c5293b1031364f308a6df64f0c00d1@ec2-54-85-56-210.compute-1.amazonaws.com:5432/d5oonq49hffn2d'
+API_SECRET_KEY = os.environ.get('API_SECRET_KEY')
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///nutrition_planner_test'
 
 connect_db(app)
 # db.drop_all()
