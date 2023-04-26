@@ -33,6 +33,6 @@ https://spoonacular.com/food-api
 
 ## Technology Stack
 
-Front-end =  CSS-Bootstrap, HTML
+Front-end = Jinja, CSS-Bootstrap, HTML
 Back-end = Python: Flask, flask_wtf, WTForms, bcrypt, SQLAlchemy
 
